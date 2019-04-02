@@ -435,7 +435,7 @@ instance Pretty CExpr where
     prettyPrec _p (CVar ident _) = identP ident
     prettyPrec _p (CConst constant) = pretty constant
     prettyPrec _p (CCompoundLit decl initl _) =
-        parens (pretty decl) <+> (braces . hsep . punctuate comma) (map p initl) where
+        (let declDoc = pretty decl in if isEmpty declDoc then empty else parens declDoc) <+> (braces . hsep . punctuate comma) (map p initl) where
         p ([], initializer)           = pretty initializer
         p (mems, initializer) = hcat (punctuate (text ".") (map pretty mems)) <+> text "=" <+> pretty initializer
 
